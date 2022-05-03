@@ -6,6 +6,8 @@ import pl.kozdrun.evolution.state.model.GameState;
 import pl.kozdrun.evolution.state.model.PlayerState;
 import pl.kozdrun.evolution.state.model.Round;
 
+import java.math.BigDecimal;
+
 @Component
 @RequiredArgsConstructor
 public class GameStateManager {
@@ -34,10 +36,12 @@ public class GameStateManager {
 
     public void addRoundAndRecalculateBalance(String playerId, String gameId, Round round) {
         GameState gameState = getGame(playerId, gameId);
-        round.setRoundNumber(gameState.getRounds().size() + 1);
-
-        gameState.setBalance(gameState.getBalance().add(round.getScoreAmount()));
+        BigDecimal newBalance = gameState.getBalance().add(round.getScoreAmount());
+        gameState.setBalance(newBalance);
         gameState.getRounds().add(round);
+
+        round.setRoundNumber(gameState.getRounds().size() + 1);
+        round.setNewBalance(newBalance);
     }
 
 

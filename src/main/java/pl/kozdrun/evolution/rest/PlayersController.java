@@ -1,5 +1,6 @@
 package pl.kozdrun.evolution.rest;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,7 @@ public class PlayersController {
     private final PlayersService playersService;
     private final PlayersControllerValidator requestValidator;
 
+    @Operation(summary = "Create a new player with random id")
     @PostMapping("/")
     public NewPlayerResponse createNewPlayer() {
         logger.info("Create new player");
@@ -30,6 +32,7 @@ public class PlayersController {
         return new NewPlayerResponse(playerId);
     }
 
+    @Operation(summary = "Get all details about player")
     @GetMapping("/{playerId}")
     public PlayerState getPlayer(
             @PathVariable("playerId") String playerId) {
@@ -41,6 +44,7 @@ public class PlayersController {
         return playersService.getPlayer(playerId);
     }
 
+    @Operation(summary = "Create a new game")
     @PostMapping("/{playerId}/games")
     public GameState createNewGame(
             @PathVariable("playerId") String playerId) {
@@ -52,6 +56,7 @@ public class PlayersController {
         return playersService.newGame(playerId);
     }
 
+    @Operation(summary = "Get all details about specific game")
     @GetMapping("/{playerId}/games/{gameId}")
     public GameState getGame(
             @PathVariable("playerId") String playerId,
@@ -65,6 +70,7 @@ public class PlayersController {
 
     }
 
+    @Operation(summary = "Play game round with information about 'bet amount' and 'game mode'")
     @PostMapping("/{playerId}/games/{gameId}/rounds")
     public Round playRound(
             @PathVariable("playerId") String playerId,
@@ -82,6 +88,7 @@ public class PlayersController {
         return playersService.playRound(playerId, gameId, playRoundRequest);
     }
 
+    @Operation(summary = "Get all about specific rond of the game")
     @GetMapping("/{playerId}/games/{gameId}/rounds/{roundNumber}")
     public Round getRound(
             @PathVariable("playerId") String playerId,
@@ -96,6 +103,7 @@ public class PlayersController {
         return playersService.getRound(playerId, gameId, roundNumber);
     }
 
+    @Operation(summary = "Get all information about rounds for game")
     @GetMapping("/{playerId}/games/{gameId}/rounds")
     public List<Round> getRounds(
             @PathVariable("playerId") String playerId,
@@ -108,6 +116,7 @@ public class PlayersController {
         return playersService.getGame(playerId, gameId).getRounds();
     }
 
+    @Operation(summary = "Get all information about player's games")
     @GetMapping("/{playerId}/games")
     public List<GameState> getGames(
             @PathVariable("playerId") String playerId) {

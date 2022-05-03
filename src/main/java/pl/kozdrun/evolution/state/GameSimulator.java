@@ -27,9 +27,6 @@ public class GameSimulator {
 
     public boolean drawFreeRound() {
         double randomNumber = Math.random();
-        if (randomNumber <= 0.1) {
-            return true;
-        }
-        return false;
+        return randomNumber <= 0.1;
     }
 }
